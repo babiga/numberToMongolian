@@ -1,5 +1,5 @@
 const texts = {
-    separatrix: ["мянга","сая","тэрбум","их наяд","маш дэлгэмэл","тунамал"],
+    separatrix: ["мянга","сая","тэрбум","их наяд","маш дэлгэмэл","тунамал","ингүүмэл"],
     unity: ["","нэг","хоёр","гурав","дөрөв","тав","зургаа","долоо","найм","ес"],
     unity_bander: ["","нэгэн","хоёр","гурван","дөрвөн","таван","зургаан","долоон","найман","есөн"],
     decimal: ["","арав","хорь","гуч","дөч","тавь","жар","дал","ная","ер",],
@@ -9,18 +9,28 @@ const texts = {
 };
 
 const number_to_text = (number) => {
-    number = Math.round(number);
+    
+    if(parseInt(number.toString().substring(number.toString().length - 2)) > 21) {
+        return "Хэтэрхий том тоо тул bigIntToMongolian.js ээр хөрвүүлнэ үү..."
+    }
+    if(parseInt(number.toString().substring(number.toString().length - 2)) == 21) {
+        return texts.unity_bander[parseInt(number.toString().substring(0,number.toString().indexOf("e")))]+' '+texts.separatrix[6]
+    }
     if(number === 0) {
         return "тэг"
     }
+    if(number.toString().includes('.')){
+        number = Math.round(number);
+    }
+    number = number.toString();
     let converted_text = ''
     let counter = 0
     let tsifr; 
-    if(number >= 0) {
-        tsifr = number.toString().split('').reverse().join('');
+    if(number > 0) {
+        tsifr = number.split('').reverse().join('');
         tsifr = tsifr.match(/.{1,3}/g).map((m) => m.split('').reverse().join('')).reverse()
     } else {
-        tsifr = number.toString().split(`-`).reverse().join('');
+        tsifr = number.split(`-`).reverse().join('');
         tsifr = tsifr.match(/.{1,3}/g).map((m) => m.split('').join(''))
     }
     converted_text = zuutaar(tsifr.pop(), true) + converted_text
@@ -73,7 +83,4 @@ const zuutaar = (number, is_last=false) => {
     return converted_text
 }
 
-// Хөрвүүлэх дээд хязгаар
- console.log(number_to_text(998_999_999_999_999_999_999))
-
-// Үүнээс дээш тоог bigIntToMongolian.js ээр хөрвүүлнэ үү...
+ console.log(number_to_text(8_999_999_999_999_999_999_999))
