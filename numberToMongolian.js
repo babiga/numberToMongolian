@@ -10,11 +10,14 @@ const texts = {
 
 const number_to_text = (number) => {
     
-    if(parseInt(number.toString().substring(number.toString().length - 2)) > 21) {
-        return "Хэтэрхий том тоо тул bigIntToMongolian.js ээр хөрвүүлнэ үү..."
-    }
-    if(parseInt(number.toString().substring(number.toString().length - 2)) == 21) {
-        return texts.unity_bander[parseInt(number.toString().substring(0,number.toString().indexOf("e")))]+' '+texts.separatrix[6]
+    if(number.toString().includes("e+")){
+        if(parseInt(number.toString().substring(number.toString().length - 2)) > 21) {
+            console.log(number.toString().substring(number.toString().length - 2))
+            return "Хэтэрхий том тоо тул bigIntToMongolian.js ээр хөрвүүлнэ үү..."
+        }
+        if(parseInt(number.toString().substring(number.toString().length - 2)) == 21) {
+            return texts.unity_bander[parseInt(number.toString().substring(0,number.toString().indexOf("e")))]+' '+texts.separatrix[6]
+        }
     }
     if(number === 0) {
         return "тэг"
